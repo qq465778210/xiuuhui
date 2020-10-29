@@ -1,8 +1,12 @@
 <template>
     <div class="home">
+        <music-icon></music-icon>
         <header class="header">
             <div id="top-logo">
-                <img src="@/assets/img/02bb004345d2c2e19ac5b247ce9e70f2.jpg" alt="" />
+                <img
+                    src="@/assets/img/02bb004345d2c2e19ac5b247ce9e70f2.jpg"
+                    alt=""
+                />
             </div>
             <div id="top-title">
                 <span id="title01">灰灰的个人小站</span>
@@ -19,11 +23,18 @@
         <footer id="bottom-footer">
             <div>
                 <hr />
-                <span>This is a simple website for person study, thanks NvZ make the base web style for me.</span>
+                <span
+                    >This is a simple website for person study, thanks NvZ make
+                    the base web style for me.</span
+                >
             </div>
             <div>
                 <hr />
-                <span><a href="http://beian.miit.gov.cn/">赣ICP备 2020011012号</a></span>
+                <span
+                    ><a href="http://beian.miit.gov.cn/"
+                        >赣ICP备 2020011012号</a
+                    ></span
+                >
                 <span>Copyright © 2020-2020 huihui.xiong.</span>
             </div>
             <audio autoplay="autoplay">
@@ -35,10 +46,13 @@
 
 <script>
 // @ is an alias to /src
+import MusicIcon from "components/common/MusicIcon";
 
 export default {
     name: "Home",
-    components: {},
+    components: {
+        MusicIcon,
+    },
     data() {
         return {
             publicPath: process.env.BASE_URL,
@@ -52,7 +66,8 @@ export default {
     width: 100%;
     height: 100%;
     padding: 100px 0 10px;
-    background: url(~@/assets/img/4dfce2edfaaaffbdc6339399cc340997.png) no-repeat center;
+    background: url(~@/assets/img/4dfce2edfaaaffbdc6339399cc340997.png)
+        no-repeat center;
     background-size: cover;
     position: fixed;
 }
@@ -80,7 +95,7 @@ export default {
     // align-items: center;
     box-shadow: 0 0 4px rgb(0, 0, 0, 0.5);
     filter: drop-shadow(0 0 4px rgb(0, 0, 0, 0.5));
-    animation: logo-rotate 10s linear infinite;
+    // animation: logo-rotate 10s linear infinite;
     img {
         border-radius: 50%;
         height: 100%;
