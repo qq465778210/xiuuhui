@@ -26,9 +26,6 @@
                 <span><a href="http://beian.miit.gov.cn/">赣ICP备 2020011012号</a></span>
                 <span>Copyright © 2020-2020 huihui.xiong.</span>
             </div>
-            <audio autoplay="autoplay">
-                <source src="@/assets/mp3/onj001.mp3" type="audio/mpeg" />
-            </audio>
         </footer>
     </div>
 </template>
