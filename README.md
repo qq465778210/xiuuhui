@@ -1,3 +1,4 @@
 # xiuuhui
 
-developer： kaixuan.luo
+## developer
+   main developer: NvZ
