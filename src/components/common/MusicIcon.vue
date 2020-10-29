@@ -1,7 +1,7 @@
 <template>
     <div class="music-icon frosted-glass">
         <div class="play-pause">
-            <img src="~@/assets/logo.png" alt="" />
+            <img src="~@/assets/img/music.png" alt="" />
         </div>
         <div class="music-menu"></div>
     </div>
