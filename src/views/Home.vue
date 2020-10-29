@@ -19,7 +19,7 @@
         <footer id="bottom-footer">
             <div>
                 <hr />
-                <span>This is a simple website for person study, thinks kaixuan.luo make the base web style for me.</span>
+                <span>This is a simple website for person study, thinks NvZ make the base web style for me.</span>
             </div>
             <div>
                 <hr />
