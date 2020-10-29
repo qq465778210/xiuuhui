@@ -1,4 +1,4 @@
 # xiuuhui
 
 ## developer
-   main developer: NvZ
+   main developer: huihui,NvZ
