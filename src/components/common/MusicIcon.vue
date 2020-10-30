@@ -6,12 +6,11 @@
                 :style="{ 'animation-play-state': animationShow }"
                 @click="togglePlay"
             >
-                <img src="~@/assets/img/music.png" alt="" />
+                <img src="~@/assets/img/music_single_cccccc.png" alt="" />
                 <audio
                     id="music-player"
-                    src="~@/assets/mp3/Test01.mp3"
                     :autoplay="isPlaying"
-                    loop
+                    :src="musicSource"
                 ></audio>
             </div>
             <div class="music-menu" @click="menuBtn">
@@ -31,10 +30,21 @@ export default {
             animationShow: "paused",
             isPlaying: false,
             isMobile: false,
+            //返回资源地址
+            musicSource: "",
+            musicList: [
+                // "/mp3/onj001.mp3",
+                "/mp3/Test01.mp3",
+                "/mp3/Test02.mp3",
+            ],
         };
+    },
+    created() {
+        this.musicSource = this.musicList[0];
     },
     mounted() {
         this.userDevice();
+        this.audioInit();
         this.initPlay();
     },
     methods: {
@@ -44,11 +54,30 @@ export default {
                 /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
             );
             this.isMobile = flag;
-            console.log(this.isMobile);
         },
         // 根据设备类型初始化播放状态
         initPlay() {
             this.isMobile ? this.pauseMusic() : this.playMusic();
+            // document.querySelector(".play-pause").onclick;
+        },
+        audioInit() {
+            let audio = document.querySelector("#music-player");
+            let index = 0;
+            //监听音频结束
+            audio.addEventListener("ended", () => {
+                console.log("ended");
+                this.pauseMusic();
+                //循环播放列表音乐
+                this.musicSource =
+                    index + 1 >= this.musicList.length
+                        ? this.musicList[0]
+                        : this.musicList[index + 1];
+                index++;
+                console.log(this.musicSource);
+                setTimeout(() => {
+                    this.playMusic();
+                }, 500);
+            });
         },
         //点击切换播放/暂停
         togglePlay() {
@@ -58,7 +87,7 @@ export default {
         },
         //播放音乐
         playMusic() {
-            var audio = document.querySelector("#music-player");
+            let audio = document.querySelector("#music-player");
             if (!this.isPlaying) {
                 audio.play();
                 this.isPlaying = true;
@@ -67,7 +96,7 @@ export default {
         },
         // 暂停音乐
         pauseMusic() {
-            var audio = document.querySelector("#music-player");
+            let audio = document.querySelector("#music-player");
             if (this.isPlaying) {
                 audio.pause();
                 this.isPlaying = false;
@@ -77,8 +106,24 @@ export default {
         },
         //跳转到音乐详情页
         menuBtn() {
-            this.$router.push("/");
+            this.$router.push("/music");
         },
+        //以下是AudioContext方法
+        // testAudio() {
+        //     const audioContext = new AudioContext();
+        //     async function play() {
+        //         const res = await fetch("http://localhost/file/audio.mp3");
+        //         const arraybuffer = await res.arrayBuffer();
+        //         const audioBuffer = await audioContext.decodeAudioData(
+        //             arraybuffer
+        //         );
+        //         const source = audioContext.createBufferSource();
+        //         source.connect(audioContext.destination); //连接上实例
+        //         source.buffer = audioBuffer;
+        //         source.start();
+        //     }
+        //     button.addEventListener("click", play, false);
+        // },
     },
 };
 </script>
@@ -95,6 +140,7 @@ export default {
     transition: all 0.5s ease;
     overflow: hidden;
     .music-menu {
+        transition: all 0.5s ease;
         opacity: 0;
     }
 }

@@ -9,7 +9,11 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home
-    },
+    }, {
+        path: '/music',
+        name: 'MusicPlayer',
+        component: () => import('../views/MusicPlayer.vue')
+    }
     //   {
     //     path: '/about',
     //     name: 'About',
