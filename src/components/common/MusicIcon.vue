@@ -1,10 +1,20 @@
 <template>
     <div class="music-icon frosted-glass">
         <div class="music-container">
-            <div class="play-pause">
+            <div
+                class="play-pause"
+                :style="{ 'animation-play-state': animationShow }"
+                @click="togglePlay"
+            >
                 <img src="~@/assets/img/music.png" alt="" />
+                <audio
+                    id="music-player"
+                    src="~@/assets/mp3/Test01.mp3"
+                    :autoplay="isPlaying"
+                    loop
+                ></audio>
             </div>
-            <div class="music-menu">
+            <div class="music-menu" @click="menuBtn">
                 <img src="~@/assets/img/menu.png" alt="" />
             </div>
         </div>
@@ -14,6 +24,62 @@
 <script>
 export default {
     name: "MusicIcon",
+    data() {
+        return {
+            // animationShow: "running",
+            // isPlaying: true,
+            animationShow: "paused",
+            isPlaying: false,
+            isMobile: false,
+        };
+    },
+    mounted() {
+        this.userDevice();
+        this.initPlay();
+    },
+    methods: {
+        //判断设备类型
+        userDevice() {
+            let flag = navigator.userAgent.match(
+                /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+            );
+            this.isMobile = flag;
+            console.log(this.isMobile);
+        },
+        // 根据设备类型初始化播放状态
+        initPlay() {
+            this.isMobile ? this.pauseMusic() : this.playMusic();
+        },
+        //点击切换播放/暂停
+        togglePlay() {
+            this.animationShow == "running"
+                ? this.pauseMusic()
+                : this.playMusic();
+        },
+        //播放音乐
+        playMusic() {
+            var audio = document.querySelector("#music-player");
+            if (!this.isPlaying) {
+                audio.play();
+                this.isPlaying = true;
+                this.animationShow = "running";
+            }
+        },
+        // 暂停音乐
+        pauseMusic() {
+            var audio = document.querySelector("#music-player");
+            if (this.isPlaying) {
+                audio.pause();
+                this.isPlaying = false;
+                // audio.currentTime = 0;
+                this.animationShow = "paused";
+            }
+        },
+        //跳转到音乐详情页
+        menuBtn() {
+            this.$router.push("/");
+        },
+    },
 };
 </script>
 
@@ -57,6 +123,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     // margin: 0 2px 0 0;
     animation: logo-rotate 10s linear infinite;
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
@@ -76,6 +143,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
     img {
         height: 80%;

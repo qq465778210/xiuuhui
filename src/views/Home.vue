@@ -30,11 +30,9 @@
             </div>
             <div>
                 <hr />
-                <span
-                    ><a href="http://beian.miit.gov.cn/"
-                        >赣ICP备 2020011012号</a
-                    ></span
-                >
+                <span>
+                    <a href="http://beian.miit.gov.cn/">赣ICP备 2020011012号</a>
+                </span>
                 <span>Copyright © 2020-2020 huihui.xiong.</span>
             </div>
         </footer>
@@ -166,6 +164,9 @@ export default {
         letter-spacing: 1.5px;
         line-height: 16px;
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         span {
             line-height: 24px;
             margin: 0 10px;
