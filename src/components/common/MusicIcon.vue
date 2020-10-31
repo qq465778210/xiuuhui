@@ -34,6 +34,8 @@ export default {
             musicSource: "",
             musicList: [
                 // "/mp3/onj001.mp3",
+                // "/mp3/onj002.mp3",
+                // "/mp3/onj003.mp3",
                 "/mp3/Test01.mp3",
                 "/mp3/Test02.mp3",
             ],
@@ -68,11 +70,14 @@ export default {
                 console.log("ended");
                 this.pauseMusic();
                 //循环播放列表音乐
-                this.musicSource =
-                    index + 1 >= this.musicList.length
-                        ? this.musicList[0]
-                        : this.musicList[index + 1];
-                index++;
+                if (index + 1 >= this.musicList.length) {
+                    index = 0;
+                    this.musicSource = this.musicList[index];
+                }else{
+                    this.musicSource = this.musicList[index + 1];
+                    index++;
+                }
+                console.log(index);
                 console.log(this.musicSource);
                 setTimeout(() => {
                     this.playMusic();
