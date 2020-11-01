@@ -1,20 +1,12 @@
 <template>
     <div class="music-icon frosted-glass">
         <div class="music-container">
-            <div
-                class="play-pause"
-                :style="{ 'animation-play-state': animationShow }"
-                @click="togglePlay"
-            >
+            <div class="play-pause" :style="{ 'animation-play-state': animationShow }" @click="togglePlay">
                 <img src="~@/assets/img/music_single_cccccc.png" alt="" />
-                <audio
-                    id="music-player"
-                    :autoplay="isPlaying"
-                    :src="musicSource"
-                ></audio>
+                <audio id="music-player" :autoplay="isPlaying" :src="musicSource"></audio>
             </div>
             <div class="music-menu" @click="menuBtn">
-                <img src="~@/assets/img/menu.png" alt="" />
+                听会音乐~
             </div>
         </div>
     </div>
@@ -150,20 +142,20 @@ export default {
     }
 }
 .music-icon:hover {
-    height: 8rem;
-    // width: 4rem;
+    // height: 4rem;
+    width: 8rem;
     box-shadow: 0 0 10px rgb(224, 51, 138, 0.2);
     .music-menu {
         opacity: 1;
     }
 }
 .music-container {
-    height: 8rem;
-    width: 4rem;
+    height: 4rem;
+    width: 8rem;
     // padding: 0 0 0 5px;
     align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
 }
 .play-pause {
@@ -196,10 +188,9 @@ export default {
     align-items: center;
     cursor: pointer;
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-    img {
-        height: 80%;
-        width: 80%;
-    }
+    font-size: 12px;
+    color: azure;
+    font-family: W03;
 }
 .music-menu:hover {
     filter: brightness(150%) drop-shadow(0 0 4px rgba(224, 51, 138, 0.5));
