@@ -143,7 +143,7 @@ export default {
 }
 .music-icon:hover {
     // height: 4rem;
-    width: 8rem;
+    width: 9rem;
     box-shadow: 0 0 10px rgb(224, 51, 138, 0.2);
     .music-menu {
         opacity: 1;
@@ -151,7 +151,7 @@ export default {
 }
 .music-container {
     height: 4rem;
-    width: 8rem;
+    width: 9rem;
     // padding: 0 0 0 5px;
     align-items: center;
     display: flex;
@@ -181,14 +181,14 @@ export default {
 .music-menu {
     border-radius: 50%;
     height: 3.5rem;
-    width: 3.5rem;
+    width: 5rem;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-    font-size: 12px;
+    font-size: 14px;
     color: azure;
     font-family: W03;
 }
