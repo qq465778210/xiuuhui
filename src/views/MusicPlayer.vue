@@ -4,7 +4,7 @@
             <h2>Music Player</h2>
             <div class="music-list">
                 <ul>
-                    <li v-for="(item, index) in musicList" :key="index">
+                    <li v-for="(item, id) in musicList" :key="id">
                         <div class="music-list-name">
                             <span>{{ item.name | filterNull }}</span>
                         </div>
@@ -39,19 +39,22 @@ export default {
             index: 0,
             musicInfo: "",
             musicList: [
+                // {
+                //     id:'001',
+                //     name: "onj001",
+                //     artist: "",
+                //     album: "",
+                //     path: "/mp3/onj001.mp3",
+                // },
                 {
-                    name: "onj001",
-                    artist: "",
-                    album: "",
-                    path: "/mp3/onj001.mp3",
-                },
-                {
+                    id:'002',
                     name: "アングレカム",
                     artist: "Innocent Grey",
                     album: "FLOWERS ORIGINAL SOUNDTRACK -PRINTEMPS-",
                     path: "/mp3/Test01.mp3",
                 },
                 {
+                    id:'003',
                     name: "WINGS ~TYPE-MOON Fes. Opening Theme~",
                     artist: "深澤秀行",
                     album: "TYPE-MOON Fes. -10th Anniversary Blu-ray Disc Box-",
