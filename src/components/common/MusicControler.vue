@@ -43,8 +43,9 @@ export default {
         return {
             nowPlaying: this.musicInfo,
             status: "",
-            path: this.musicInfo.path,
+            // path: this.musicInfo.path,
             // path: 'https://music.163.com/song/media/outer/url?id=1487528112.mp3',
+            path: '/cloudmusic/url?id=1487528112.mp3',
         };
     },
     created() {
