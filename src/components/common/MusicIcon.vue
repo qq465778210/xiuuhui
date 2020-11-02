@@ -78,7 +78,7 @@ export default {
         },
         //点击切换播放/暂停
         togglePlay() {
-            this.animationShow == "running"
+            this.animationShow === "running"
                 ? this.pauseMusic()
                 : this.playMusic();
         },

@@ -43,25 +43,31 @@ export default {
         return {
             nowPlaying: this.musicInfo,
             status: "",
+            path: this.musicInfo.path,
+            // path: 'https://music.163.com/song/media/outer/url?id=1487528112.mp3',
         };
     },
     created() {
         console.log(this.nowPlaying.name);
+        console.log(this.path);
         // const AudioContext = window.AudioContext || window.webkitAudioContext;
         // this.audioContext = new AudioContext();
+        this.initAudio(this.path)
+            .then((result) => {
+                console.log(result);
+                audioCtxSource = result;
+                // result.start();
+                audioCtxSource.start();
+            })
+            .catch((err) => {
+                console.log("获取歌曲失败");
+            });
     },
     mounted() {
         // audio.text();
         // console.log(audio.audioContext);
         // console.log(this.audioContext);
-        this.initAudio()
-            .then((result) => {
-                console.log(result);
-                result.start();
-            })
-            .catch((err) => {
-                console.log("获取歌曲失败");
-            });
+        console.log(audioCtx.state);
     },
     updated() {
         console.log(this.nowPlaying.path);
@@ -69,15 +75,17 @@ export default {
     watch: {
         musicInfo() {
             this.nowPlaying = this.musicInfo;
+            // this.path = `http://localhost:8080${this.nowPlaying.path}`;
+            this.path = this.nowPlaying.path;
         },
     },
     methods: {
         getStatus() {
             this.status = audioCtx.state;
         },
-        async initAudio() {
+        async initAudio(path) {
             console.log(audioCtx);
-            let path = `http://localhost:8080${this.nowPlaying.path}`;
+            // let path = `http://localhost:8080${this.nowPlaying.path}`;
             // async function getData() {
             //     try {
             //         console.log("获取成功");
@@ -99,7 +107,6 @@ export default {
 
             source.connect(audioCtx.destination); //连接上实例
             source.buffer = audioBuffer;
-            audioCtxSource = source;
 
             return source;
         },
@@ -116,35 +123,35 @@ export default {
         },
         togglePlay() {
             // audio.text();
-            console.log(audioCtx.state);
-            // if (audioCtx.state === "running") {
-            //     audioCtx.suspend().then(function () {
-            //         // susresBtn.textContent = "Resume context";
-            //         console.log("暂停音乐");
-            //         console.log(audioCtx.state);
-            //     });
-            // } else if (audioCtx.state === "suspended") {
-            //     audioCtx.resume().then(function () {
-            //         // susresBtn.textContent = "Suspend context";
-            //         console.log("恢复音乐");
-            //         console.log(audioCtx.state);
-            //     });
-            // } else {
-            // this.initAudio()
-            //     .then((result) => {
-            //         console.log(result);
-            //         result.start();
-            //     })
-            //     .catch((err) => {
-            //         console.log("获取歌曲失败");
-            //     });
             // audioCtxSource && audioCtxSource.start();
-            // }
+            if (audioCtx.state === "running") {
+                audioCtx.suspend().then(function () {
+                    // susresBtn.textContent = "Resume context";
+                    console.log("暂停音乐");
+                    console.log(audioCtx.state);
+                });
+            } else if (audioCtx.state === "suspended") {
+                audioCtx.resume().then(function () {
+                    // susresBtn.textContent = "Suspend context";
+                    console.log("恢复音乐");
+                    console.log(audioCtx.state);
+                });
+            } else {
+                // this.initAudio()
+                //     .then((result) => {
+                //         console.log(result);
+                //         result.start();
+                //     })
+                //     .catch((err) => {
+                //         console.log("获取歌曲失败");
+                //     });
+                // audioCtxSource && audioCtxSource.start();
+                console.log(audioCtx.state);
+            }
         },
         next() {
             console.log("nextClick");
             this.$emit("nextMusic");
-            // audioCtxSource.start();
             // console.log(audioCtxSource.start);
         },
     },
