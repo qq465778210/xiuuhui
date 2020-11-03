@@ -1,13 +1,19 @@
 <template>
     <div class="music-icon frosted-glass">
         <div class="music-container">
-            <div class="play-pause" :style="{ 'animation-play-state': animationShow }" @click="togglePlay">
+            <div
+                class="play-pause"
+                :style="{ 'animation-play-state': animationShow }"
+                @click="togglePlay"
+            >
                 <img src="~@/assets/img/music_single_cccccc.png" alt="" />
-                <audio id="music-player" :autoplay="isPlaying" :src="musicSource"></audio>
+                <audio
+                    id="music-player"
+                    :autoplay="isPlaying"
+                    :src="musicSource"
+                ></audio>
             </div>
-            <div class="music-menu" @click="menuBtn">
-                听会音乐~
-            </div>
+            <div class="music-menu" @click="menuBtn">听会音乐~</div>
         </div>
     </div>
 </template>
@@ -26,8 +32,6 @@ export default {
             musicSource: "",
             musicList: [
                 // "/mp3/onj001.mp3",
-                // "/mp3/onj002.mp3",
-                // "/mp3/onj003.mp3",
                 "/mp3/Test01.mp3",
                 "/mp3/Test02.mp3",
             ],
@@ -65,7 +69,7 @@ export default {
                 if (index + 1 >= this.musicList.length) {
                     index = 0;
                     this.musicSource = this.musicList[index];
-                }else{
+                } else {
                     this.musicSource = this.musicList[index + 1];
                     index++;
                 }
@@ -85,7 +89,7 @@ export default {
         //播放音乐
         playMusic() {
             let audio = document.querySelector("#music-player");
-            if (!this.isPlaying) {
+            if (audio.paused && !this.isPlaying) {
                 audio.play();
                 this.isPlaying = true;
                 this.animationShow = "running";
@@ -94,7 +98,7 @@ export default {
         // 暂停音乐
         pauseMusic() {
             let audio = document.querySelector("#music-player");
-            if (this.isPlaying) {
+            if (!audio.paused && this.isPlaying) {
                 audio.pause();
                 this.isPlaying = false;
                 // audio.currentTime = 0;

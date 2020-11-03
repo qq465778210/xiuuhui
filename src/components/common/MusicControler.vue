@@ -9,32 +9,23 @@
             <div id="music-control">
                 <!-- <div id="play-mode" @click="playMode">顺序</div> -->
                 <div id="last" @click="last">上一首</div>
-                <div id="play-pause" @click="togglePlay">播放/暂停</div>
+                <div id="play-pause" @click="togglePlay">{{ playButton }}</div>
                 <div id="next" @click="next">下一首</div>
                 <!-- <div id="volume" @click="volume">音量</div> -->
             </div>
         </div>
-        <div id="getStatus" @click="getStatus">获取音频状态</div>
+        <!-- <div id="getStatus" @click="getStatus">获取音频状态</div> -->
         <!-- <div>{{ nowPlaying }}</div>
         <div>{{ status }}</div> -->
     </div>
 </template>
 
 <script>
-import audio from "@/assets/js/audio.js";
+// import audio from "@/assets/js/audio.js";
 
-const audioCtx = new audio.AudioContext();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = new AudioContext();
 let audioCtxSource;
-
-let test = 0;
-function testFunc() {
-    //  setTimeout(() => {
-    test = 1;
-    // }, 0);
-    // return;
-}
-testFunc();
-console.log(test);
 
 export default {
     name: "MusicControler",
@@ -45,6 +36,7 @@ export default {
             status: "",
             path: this.musicInfo.path,
             // path: 'https://music.163.com/song/media/outer/url?id=1487528112.mp3',
+            playButton: "暂停",
         };
     },
     created() {
@@ -52,16 +44,8 @@ export default {
         console.log(this.path);
         // const AudioContext = window.AudioContext || window.webkitAudioContext;
         // this.audioContext = new AudioContext();
-        this.initAudio(this.path)
-            .then((result) => {
-                console.log(result);
-                audioCtxSource = result;
-                // result.start();
-                audioCtxSource.start();
-            })
-            .catch((err) => {
-                console.log("获取歌曲失败");
-            });
+        this.createAudio();
+        this.playAudio();
     },
     mounted() {
         // audio.text();
@@ -70,32 +54,31 @@ export default {
         console.log(audioCtx.state);
     },
     updated() {
-        console.log(this.nowPlaying.path);
+        console.log(this.path);
     },
     watch: {
         musicInfo() {
             this.nowPlaying = this.musicInfo;
             // this.path = `http://localhost:8080${this.nowPlaying.path}`;
             this.path = this.nowPlaying.path;
+            this.playAudio();
         },
     },
+    beforeDestroy() {
+        audioCtx.close();
+    },
     methods: {
-        getStatus() {
-            this.status = audioCtx.state;
+        // getStatus() {
+        //     this.status = audioCtx.state;
+        // },
+        createAudio() {
+            if (audioCtx.state === "closed") {
+                audioCtx = new AudioContext();
+            }
         },
         async initAudio(path) {
             console.log(audioCtx);
-            // let path = `http://localhost:8080${this.nowPlaying.path}`;
-            // async function getData() {
-            //     try {
-            //         console.log("获取成功");
-            //         const res = await fetch(path);
-            //         return res;
-            //     } catch (err) {
-            //         console.log("获取失败" + err);
-            //     }
-            // }
-
+            console.log(path);
             const res = await fetch(path);
             const arraybuffer = await res.arrayBuffer();
             const audioBuffer = await audioCtx.decodeAudioData(arraybuffer);
@@ -107,34 +90,51 @@ export default {
 
             source.connect(audioCtx.destination); //连接上实例
             source.buffer = audioBuffer;
-
+            source.addEventListener("ended", () => {
+                this.audioEnded();
+            });
             return source;
         },
-        audioPlayer() {
-            // const AudioContext =
-            //     window.AudioContext || window.webkitAudioContext;
-            if (audioContext.state === "closed") {
-                const audioContext = new AudioContext();
+        audioEnded() {
+            console.log("onended");
+            this.next();
+        },
+        playAudio() {
+            audioCtx.close();
+            if (audioCtx.state === "closed") {
+                this.createAudio();
+                this.initAudio(this.path)
+                    .then((result) => {
+                        console.log(result);
+                        audioCtxSource = result;
+                        // result.start();
+                        audioCtxSource.start();
+                    })
+                    .catch((err) => {
+                        console.log("获取歌曲失败");
+                    });
             }
         },
         last() {
-            console.log("lastClick");
             this.$emit("lastMusic");
+            console.log(this.path);
         },
         togglePlay() {
             // audio.text();
             // audioCtxSource && audioCtxSource.start();
             if (audioCtx.state === "running") {
-                audioCtx.suspend().then(function () {
+                audioCtx.suspend().then(() => {
                     // susresBtn.textContent = "Resume context";
                     console.log("暂停音乐");
                     console.log(audioCtx.state);
+                    this.playButton = "播放";
                 });
             } else if (audioCtx.state === "suspended") {
-                audioCtx.resume().then(function () {
+                audioCtx.resume().then(() => {
                     // susresBtn.textContent = "Suspend context";
                     console.log("恢复音乐");
                     console.log(audioCtx.state);
+                    this.playButton = "暂停";
                 });
             } else {
                 // this.initAudio()
@@ -146,12 +146,14 @@ export default {
                 //         console.log("获取歌曲失败");
                 //     });
                 // audioCtxSource && audioCtxSource.start();
+                this.playButton = "暂停";
                 console.log(audioCtx.state);
             }
         },
         next() {
-            console.log("nextClick");
             this.$emit("nextMusic");
+            console.log(this.path);
+
             // console.log(audioCtxSource.start);
         },
     },
