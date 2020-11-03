@@ -37,18 +37,19 @@ export default {
             path: this.musicInfo.path,
             // path: '/cloudmusic/url?id=1487528112.mp3',
             playButton: "暂停",
+            refresh: "",
         };
     },
     created() {
         console.log(this.nowPlaying.name);
         console.log(this.path);
-        // const AudioContext = window.AudioContext || window.webkitAudioContext;
-        // this.audioContext = new AudioContext();
+
         this.createAudio();
         this.playAudio();
+
+        this.refresh = this.debounce(this.playAudio, 500);
     },
     mounted() {
-        // audio.text();
         // console.log(audio.audioContext);
         // console.log(this.audioContext);
         console.log(audioCtx.state);
@@ -61,16 +62,32 @@ export default {
             this.nowPlaying = this.musicInfo;
             // this.path = `http://localhost:8080${this.nowPlaying.path}`;
             this.path = this.nowPlaying.path;
-            this.playAudio();
+
+            // this.playAudio();
+        },
+        path() {
+            this.refresh();
         },
     },
     beforeDestroy() {
         audioCtx.close();
     },
     methods: {
-        // getStatus() {
-        //     this.status = audioCtx.state;
-        // },
+        getStatus() {
+            // this.status = audioCtx.state;
+            console.log("abc");
+        },
+        //防抖
+        debounce(fn, delay) {
+            let timer = null;
+            return function () {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(fn, delay);
+            };
+        },
+
         createAudio() {
             if (audioCtx.state === "closed") {
                 audioCtx = new AudioContext();
